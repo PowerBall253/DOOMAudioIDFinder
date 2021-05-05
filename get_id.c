@@ -67,11 +67,7 @@ int main(int argc, char **argv)
         uint32_t offset;
         fread(&offset, 4, 1, snd);
 
-        fseek(snd, 4, SEEK_CUR);
-        uint16_t format;
-        fread(&format, 2, 1, snd);
-
-        fseek(snd, 6, SEEK_CUR);
+        fseek(snd, 12, SEEK_CUR);
         long current_pos = ftell(snd);
 
         fseek(snd, offset, SEEK_SET);
