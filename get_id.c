@@ -46,6 +46,7 @@ int main(int argc, char **argv)
 
     if (!audio) {
         printf("ERROR: Failed to open %s for reading.\n", audio_path);
+        press_any_key();
         return 1;
     }
 
@@ -62,6 +63,7 @@ int main(int argc, char **argv)
 
     if (!snd) {
         printf("ERROR: Failed to open %s for reading.\n", snd_path);
+        press_any_key();
         return 1;
     }
 
