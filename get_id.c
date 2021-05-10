@@ -42,10 +42,24 @@ int get_snd_index(char **argv, char **snd_path, char **audio_path)
         return -1;
     }
 
-    uint32_t version;
-    fread(&version, 4, 1, f);
+    uint32_t version_1;
+    fread(&version_1, 4, 1, f);
 
-    switch (version) {
+    fclose(f);
+
+    if (version_1 != 6 || version_1 != 1179011410 || version_1 != 1399285583) {
+        printf("Invalid files.\n");
+        return -1;
+    }
+
+    FILE *f2 = fopen(argv[2], "rb");
+
+    uint32_t version_2;
+    fread(&version_2, 4, 1, f);
+
+    fclose(f2);
+
+    switch (version_2) {
         case 6:
             *snd_path = argv[1];
             *audio_path = argv[2];
