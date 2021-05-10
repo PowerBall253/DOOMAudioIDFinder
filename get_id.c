@@ -21,7 +21,7 @@ void press_any_key()
     info.c_cc[VTIME] = 0;
     tcsetattr(STDIN_FILENO, TCSANOW, &info);
 
-    printf("Press any key to continue...\n");
+    printf("\nPress any key to continue...\n");
     getchar();
 
     tcsetattr(STDIN_FILENO, TCSANOW, &info_copy);
@@ -101,6 +101,7 @@ int main(int argc, char **argv)
 
         if (!memcmp(audio_bytes, snd_audio_bytes, audio_size)) {
             printf("Audio file ID: %u\n", id);
+            press_any_key();
             return 0;
         }
 
@@ -112,5 +113,6 @@ int main(int argc, char **argv)
     free(audio_bytes);
 
     printf("Audio file not found in %s!\n", snd_path);
+    press_any_key();
     return 1;
 }
