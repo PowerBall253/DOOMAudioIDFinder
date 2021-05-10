@@ -55,7 +55,7 @@ int get_snd_index(char **argv, char **snd_path, char **audio_path)
     FILE *f2 = fopen(argv[2], "rb");
 
     uint32_t version_2;
-    fread(&version_2, 4, 1, f);
+    fread(&version_2, 4, 1, f2);
 
     fclose(f2);
 
