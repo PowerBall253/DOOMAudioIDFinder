@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #ifdef _WIN32
+#include <conio.h>
 #define press_any_key() getch()
 #else
 #include <termios.h>
@@ -26,6 +27,7 @@ void press_any_key()
 
     tcsetattr(STDIN_FILENO, TCSANOW, &info_copy);
 }
+
 #endif
 
 int main(int argc, char **argv)
