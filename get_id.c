@@ -3,12 +3,37 @@
 #include <string.h>
 #include <stdint.h>
 
+#ifdef _WIN32
+#define press_any_key() getch()
+#else
+#include <termios.h>
+#include <unistd.h>
+
+void press_any_key()
+{
+    struct termios info, info_copy;
+    tcgetattr(STDIN_FILENO, &info);
+
+    info_copy = info;
+
+    info.c_lflag &= ~(ICANON | ECHO);
+    info.c_cc[VMIN] = 1;
+    info.c_cc[VTIME] = 0;
+    tcsetattr(STDIN_FILENO, TCSANOW, &info);
+
+    printf("Press any key to continue...\n");
+    getchar();
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &info_copy);
+}
+#endif
+
 int main(int argc, char **argv)
 {
     if (argc < 3) {
         printf("DOOM Audio ID Finder v1.0\n\n");
         printf("Usage:\n");
-        printf("%s [WEM or OGG file] [SND file]\n\n", argv[0]);
+        printf("%s [WEM or OGG file] [SND fileC\n", argv[0]);
         printf("Example:\n");
         printf("%s music_000001.wem music.snd\n", argv[0]);
         return 1;
