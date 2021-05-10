@@ -47,7 +47,7 @@ int get_snd_index(char **argv, char **snd_path, char **audio_path)
 
     fclose(f);
 
-    if (version_1 != 6 || version_1 != 1179011410 || version_1 != 1399285583) {
+    if (version_1 != 6 && version_1 != 1179011410 && version_1 != 1399285583) {
         printf("Invalid files.\n");
         return -1;
     }
