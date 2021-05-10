@@ -54,6 +54,11 @@ int get_snd_index(char **argv, char **snd_path, char **audio_path)
 
     FILE *f2 = fopen(argv[2], "rb");
 
+    if (!f2) {
+        printf("ERROR: Failed to open %s for reading.\n", argv[1]);
+        return -1;
+    }
+
     uint32_t version_2;
     fread(&version_2, 4, 1, f2);
 
@@ -61,13 +66,13 @@ int get_snd_index(char **argv, char **snd_path, char **audio_path)
 
     switch (version_2) {
         case 6:
-            *snd_path = argv[1];
-            *audio_path = argv[2];
+            *snd_path = argv[2];
+            *audio_path = argv[1];
             break;
         case 1179011410:
         case 1399285583:
-            *snd_path = argv[2];
-            *audio_path = argv[1];
+            *snd_path = argv[1];
+            *audio_path = argv[2];
             break;
         default:
             printf("Invalid files.\n");
