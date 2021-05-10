@@ -5,13 +5,17 @@
 
 #ifdef _WIN32
 #include <conio.h>
-#define press_any_key() getch()
-#else
+#elif defined __linux__
 #include <termios.h>
 #include <unistd.h>
+#endif
 
 void press_any_key()
 {
+#ifdef _WIN32
+    printf("\nPress any key to continue...\n");
+    getch();
+#elif defined __linux__
     struct termios info, info_copy;
     tcgetattr(STDIN_FILENO, &info);
 
@@ -26,9 +30,38 @@ void press_any_key()
     getchar();
 
     tcsetattr(STDIN_FILENO, TCSANOW, &info_copy);
+#endif
 }
 
-#endif
+int get_snd_index(char **argv, char **snd_path, char **audio_path)
+{
+    FILE *f = fopen(argv[1], "rb");
+
+    if (!f) {
+        printf("ERROR: Failed to open %s for reading.\n", argv[1]);
+        return -1;
+    }
+
+    uint32_t version;
+    fread(&version, 4, 1, f);
+
+    switch (version) {
+        case 6:
+            *snd_path = argv[1];
+            *audio_path = argv[2];
+            break;
+        case 1179011410:
+        case 1399285583:
+            *snd_path = argv[2];
+            *audio_path = argv[1];
+            break;
+        default:
+            printf("Invalid files.\n");
+            return -1;
+    }
+
+    return 0;
+}
 
 int main(int argc, char **argv)
 {
@@ -41,8 +74,12 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    char *audio_path = argv[1];
-    char *snd_path = argv[2];
+    char *snd_path, *audio_path;
+
+    if (get_snd_index(argv, &snd_path, &audio_path) == -1) {
+        press_any_key();
+        return 1;
+    }
 
     FILE *audio = fopen(audio_path, "rb");
 
