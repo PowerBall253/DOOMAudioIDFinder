@@ -87,7 +87,7 @@ int main(int argc, char **argv)
     if (argc < 3) {
         printf("DOOM Audio ID Finder v1.0\n\n");
         printf("Usage:\n");
-        printf("%s [WEM or OGG file] [SND fileC\n", argv[0]);
+        printf("%s [WEM or OGG file] [SND file]\n", argv[0]);
         printf("Example:\n");
         printf("%s music_000001.wem music.snd\n", argv[0]);
         return 1;
