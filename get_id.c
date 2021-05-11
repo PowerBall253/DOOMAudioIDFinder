@@ -18,7 +18,6 @@ void press_any_key()
 #elif defined __linux__
     struct termios info, info_copy;
     tcgetattr(STDIN_FILENO, &info);
-
     info_copy = info;
 
     info.c_lflag &= ~(ICANON | ECHO);
